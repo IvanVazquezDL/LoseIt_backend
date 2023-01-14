@@ -10,6 +10,19 @@ const UserSchema = Schema({
         required: true,
         unique: true
     },
+    password:{
+        type: String,
+        required: true
+    },
+    weight: {
+        type:Number
+    },
+    height: {
+        type:Number
+    },
+    gender: {
+        type: String
+    }
 });
 
 
