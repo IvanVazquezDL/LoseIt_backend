@@ -20,11 +20,16 @@ const UserSchema = Schema({
     height: {
         type:Number
     },
+    age: {
+        type:Number
+    },
     gender: {
+        type: String
+    },
+    activity: {
         type: String
     }
 });
-
 
 UserSchema.method('toJSON', function() {
     const { __v, _id, ...object } = this.toObject();

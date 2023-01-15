@@ -3,11 +3,14 @@
 */
 
 const { Router } = require('express');
-const { createUsers, getUsers } = require('../controllers/users');
+const { check } = require('express-validator');
+const { createUser, getUsers, updateUser } = require('../controllers/users');
+const { validateJWT } = require('../middlewares/validar-jwt');
 
 const router = Router();
 
-router.get('/', getUsers);
-router.post('/', createUsers);
+router.get('/', validateJWT, getUsers);
+router.post('/', createUser);
+router.put('/:id', validateJWT, updateUser);
 
 module.exports = router;

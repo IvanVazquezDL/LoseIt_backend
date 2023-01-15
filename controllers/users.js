@@ -5,7 +5,7 @@ const { generarJWT } = require('../helpers/jwt');
 const User = require('../models/users');
 
 const getUsers = async(req, res) => {
-    const users = await User.find({}, 'username email');
+    const users = await User.find({}, 'username email weight height age gender activity');
 
     res.json({
         ok:true,
@@ -13,7 +13,7 @@ const getUsers = async(req, res) => {
     })
 }
 
-const createUsers = async (req, res = response) => {
+const createUser = async (req, res = response) => {
     const {
         username,
         password,
@@ -56,7 +56,43 @@ const createUsers = async (req, res = response) => {
     }
 }
 
+const updateUser = async (req, res = response) => {
+
+    const uid = req.params.id;
+
+    try {
+
+        const userDB = await User.findById( uid );
+
+        if ( !userDB ) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'ID doesnt belong to a user'
+            });
+        }
+
+        const { password, email, username, ...properties } = req.body;
+        
+        const updatedUser = await User.findByIdAndUpdate( uid, properties, { new: true } );
+
+        res.json({
+            ok: true,
+            user: updatedUser
+        });
+
+        
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Unexpected Error - user update'
+        })
+    }
+
+}
+
 module.exports = {
-    createUsers,
-    getUsers
+    createUser,
+    getUsers,
+    updateUser
 }
