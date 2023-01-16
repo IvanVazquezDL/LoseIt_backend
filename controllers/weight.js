@@ -1,7 +1,9 @@
 const Weight = require('../models/weight');
 
-const getWeight = async(req, res) => {
-    const weight = await Weight.find({}, 'userId weight week');
+const getWeightByUserId = async(req, res) => {
+    const uid = req.params.id;
+
+    const weight = await Weight.find({ userId: uid }, 'userId weight week username date dateText');
 
     res.json({
         ok:true,
@@ -10,12 +12,6 @@ const getWeight = async(req, res) => {
 }
 
 const createWeight = async(req, res) => {
-    const {
-        userId,
-        weight,
-        week
-    } = req.body
-
     try {
         const weight = new Weight(req.body);
         await weight.save();
@@ -31,6 +27,6 @@ const createWeight = async(req, res) => {
 }
 
 module.exports = {
-    getWeight,
+    getWeightByUserId,
     createWeight
 }

@@ -3,11 +3,13 @@
 */
 
 const { Router } = require('express');
-const { getRooms, createRoom } = require('../controllers/rooms');
+const { createRoom, getRoomById, getRoomsByUserId } = require('../controllers/rooms');
+const { validateJWT } = require('../middlewares/validar-jwt');
 
 const router = Router();
 
-router.get('/', getRooms);
-router.post('/', createRoom);
+router.get('/:id', validateJWT, getRoomById);
+router.get('/', validateJWT, getRoomsByUserId);
+router.post('/', validateJWT, createRoom);
 
 module.exports = router;

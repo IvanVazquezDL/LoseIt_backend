@@ -6,9 +6,18 @@ const RoomsSchema = Schema({
         required: true,
     },
     users: {
-        type: [Schema.Types.ObjectId],
-        ref: 'Users',
-        required: true
+        type: [{
+            uid: String,
+            username: String,
+            email: String
+        }]
+    },
+    invitedUsers: {
+        type: [{
+            uid: String,
+            username: String,
+            email: String
+        }]
     }
 });
 

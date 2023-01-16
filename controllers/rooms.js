@@ -1,11 +1,22 @@
 const Rooms = require('../models/rooms');
 
-const getRooms = async(req, res) => {
-    const room = await Rooms.find({}, 'roomName users');
+const getRoomById = async(req, res) => {
+    const uid = req.params.id;
+    const room = await Rooms.findById( uid );
 
     res.json({
         ok:true,
         room
+    })
+}
+
+const getRoomsByUserId = async(req, res) => {
+    const { userId } = req.body
+    const rooms = await Rooms.find({'users.uid': userId }, 'roomName users invitedUsers');
+
+    res.json({
+        ok:true,
+        rooms
     })
 }
 
@@ -29,6 +40,7 @@ const createRoom = async(req, res) => {
 }
 
 module.exports = {
-    getRooms,
+    getRoomById,
+    getRoomsByUserId,
     createRoom
 }

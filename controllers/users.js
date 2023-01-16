@@ -4,13 +4,31 @@ const { generarJWT } = require('../helpers/jwt');
 
 const User = require('../models/users');
 
+const fields = 'username email weight height age gender activity';
+
 const getUsers = async(req, res) => {
-    const users = await User.find({}, 'username email weight height age gender activity');
+    const users = await User.find({}, fields);
 
     res.json({
         ok:true,
         users
     })
+}
+
+const getUserByEmailOrUsername = async(req, res = response) => {
+    const usernameOrEmail = req.params.usernameOrEmail;
+
+    const user = await User.find({
+        $or: [
+            { username: usernameOrEmail },
+            { email: usernameOrEmail }
+        ]
+    }, fields);
+
+    res.json({
+        ok:true,
+        user
+    });
 }
 
 const createUser = async (req, res = response) => {
@@ -94,5 +112,6 @@ const updateUser = async (req, res = response) => {
 module.exports = {
     createUser,
     getUsers,
+    getUserByEmailOrUsername,
     updateUser
 }

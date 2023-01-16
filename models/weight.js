@@ -4,17 +4,24 @@ const WeightSchema = Schema({
     userId: {
         type: String,
         required: true,
-        unique: true
     },
-    week: {
-        type:Number,
+    username: {
+        type: String
+    },
+    dateText: {
+        type:String,
         required: true,
-        unique: true
+    },
+    date: {
+        type:Date,
+        required: true
     },
     weight: {
         type: Number
     }
 });
+
+WeightSchema.index({ dateText: 1, userId: 1 }, { unique: true });
 
 WeightSchema.method('toJSON', function() {
     const { __v, _id, ...object } = this.toObject();
