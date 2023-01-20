@@ -26,7 +26,28 @@ const createWeight = async(req, res) => {
 
 }
 
+const getWeightsByUserIds = async(req, res) => {
+
+    try {
+        const ids = req.query.ids.split(',');
+
+
+        res.json({
+            ok:true,
+            ids
+        })
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok:false,
+            msg:'error'
+        })
+    }
+
+}
+
 module.exports = {
     getWeightByUserId,
-    createWeight
+    createWeight,
+    getWeightsByUserIds
 }

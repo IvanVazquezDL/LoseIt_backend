@@ -11,8 +11,13 @@ const getRoomById = async(req, res) => {
 }
 
 const getRoomsByUserId = async(req, res) => {
-    const { userId } = req.body
-    const rooms = await Rooms.find({'users.uid': userId }, 'roomName users invitedUsers');
+    const userId = req.query.userId;
+    const invitedId = req.query.invitedId;
+
+
+    const rooms = userId ?
+        await Rooms.find({'users.uid': userId }, 'roomName users invitedUsers') :
+        await Rooms.find({'invitedUsers.uid': invitedId }, 'roomName users invitedUsers')
 
     res.json({
         ok:true,
